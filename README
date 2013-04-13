@@ -1,0 +1,7 @@
+A simple bash script for rolling RPG style polyhedral dice.
+once installed to a suitable location in your shell's $PATH, 
+you can simply type:
+roll 3d6
+and it will print the results of 3 six-sided die rolls, and give the total
+last. if you only want the total (useful for scripting), just use the -q
+option, eg: roll -q 5d4
