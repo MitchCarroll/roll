@@ -5,3 +5,6 @@ roll 3d6
 and it will print the results of 3 six-sided die rolls, and give the total
 last. if you only want the total (useful for scripting), just use the -q
 option, eg: roll -q 5d4
+
+**UPDATE**
+Added rollhex. an even simpler script that rolls 2d6 $1 times, and converts the result to hexadecimal
