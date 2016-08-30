@@ -1,0 +1,1 @@
+(echo "obase=16"; for X in $(seq 1 1 $1); do echo $(roll -q 2d6); done) | bc
