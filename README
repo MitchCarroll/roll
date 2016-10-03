@@ -7,4 +7,9 @@ last. if you only want the total (useful for scripting), just use the -q
 option, eg: roll -q 5d4
 
 UPDATE:
-Added rollhex. an even simpler script that rolls 2d6 $1 times, and converts the result to hexadecimal
+Added rollhex. an even simpler script that rolls 2d6 $1 times, and converts 
+      the result to hexadecimal
+Added groll. a graphical frontend
+TODO: fix groll. It looks nasty, and the ok button isn't default.
+      also, maybe have a picker with some die icons, and a spinbox for 
+      number of dice
