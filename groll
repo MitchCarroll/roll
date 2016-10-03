@@ -1,0 +1,8 @@
+#!/bin/bash
+ROLL=$( zenity --forms --title "Roll Dice" \
+                  --text "Select the number of dice to roll, \
+                           and the number of sides" \
+                  --add-entry="Number" \
+                  --add-entry="sides" \
+                  --separator="d" );
+roll $ROLL | zenity --text-info 
