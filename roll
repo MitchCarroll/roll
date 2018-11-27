@@ -1,21 +1,20 @@
 #!/bin/bash
 
-if [ ! $1 ]; then
-echo 'USAGE: roll [-q] <num_dice>d<die_sides>'
-echo ' -q = Quiet Mode: only the total is output'
-exit 1
-elif [ $1 = '-h' ]; then
-echo 'USAGE: roll [-q] <num_dice>d<die_sides>'
-echo ' -q = Quiet Mode: only the total is output'
-exit 1
+if [ ! $1 | $1 = '-h' ];
+then
+	echo 'USAGE: roll [-q] <num_dice>d<die_sides> [-d <drop_dice>]'
+	echo ' -q = Quiet Mode: only the total is output'
+	echo ' -d N = Drop: after rolling, drop the lowest N dice'
+	exit 1
 fi
 
-if [ $1 = '-q' ]; then
-    A=$2;
-    QUIET=1;
+if [ $1 = '-q' ];
+then
+	A=$2;
+	QUIET=1;
 else
-    A=$1;
-    QUIET=0;
+	A=$1;
+	QUIET=0;
 fi
 
 NUM=${A%%d*}
@@ -26,14 +25,16 @@ TOTAL=0
 #for (( X=1;X<=$NUM;X++ ))
 for X in $( seq 1 1 $NUM )
 do
-    ROLL=$(( RANDOM % SIDES + 1 ))
-    TOTAL=$(( TOTAL + ROLL ))
-    if [ $QUIET = 0 ]; then
-	echo "Roll" $X " : " $ROLL
-    fi
+	ROLL=$(( RANDOM % SIDES + 1 ))
+	TOTAL=$(( TOTAL + ROLL ))
+	if [ $QUIET = 0 ];
+	then
+		echo "Roll" $X " : " $ROLL
+	fi
 done
-if [ $QUIET = 0 ]; then
-    echo "Total : " $TOTAL
+if [ $QUIET = 0 ];
+then
+	echo "Total : " $TOTAL
 else
-    echo $TOTAL
+	echo $TOTAL
 fi
