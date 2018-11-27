@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! $1 | $1 = '-h' ];
+if [ ! $1 ] || [ $1 = '-h' ];
 then
 	echo 'USAGE: roll [-q] <num_dice>d<die_sides> [-d <drop_dice>]'
 	echo ' -q = Quiet Mode: only the total is output'
