@@ -60,5 +60,5 @@ if [ "$QUIET" -eq 0 ];
 then
 	echo "Total : $TOTAL"
 else
-0	echo "$TOTAL"
+	echo "$TOTAL"
 fi
