@@ -19,22 +19,28 @@ fi
 
 NUM=${A%%d*}
 SIDES=${A##*d}
-ROLL=0
 TOTAL=0
-
-#for (( X=1;X<=$NUM;X++ ))
-for X in $( seq 1 1 $NUM )
+LOW_ROLL=$SIDES
+for X in $( seq 0 1 $NUM )
 do
-	ROLL=$(( RANDOM % SIDES + 1 ))
-	TOTAL=$(( TOTAL + ROLL ))
+	ROLLS[X]=$(( RANDOM % SIDES + 1 ))
+done
+
+IFS=$'\n' ROLLS=($(sort <<< "${ROLLS[*]}"))
+unset IFS
+
+for X in $( seq 0 1 $NUM )
+do
 	if [ $QUIET = 0 ];
 	then
-		echo "Roll" $X " : " $ROLL
+		echo "Roll $X  :  ${ROLLS[X]}"
 	fi
+	TOTAL=$(( TOTAL + ${ROLLS[X]} ))
 done
+
 if [ $QUIET = 0 ];
 then
-	echo "Total : " $TOTAL
+	echo "Total : $TOTAL"
 else
 	echo $TOTAL
 fi
