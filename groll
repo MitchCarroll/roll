@@ -4,5 +4,8 @@ ROLL=$( zenity --forms --title "Roll Dice" \
                            and the number of sides" \
                   --add-entry="Number" \
                   --add-entry="sides" \
+		  --add-entry="drop" \
                   --separator="d" );
+ROLL=$( sed 's/d/ -d /2' <<< $ROLL )
+ROLL=$( sed 's/-d $//g' <<< $ROLL )
 roll $ROLL | zenity --text-info 
