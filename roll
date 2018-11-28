@@ -17,10 +17,22 @@ else
 	QUIET=0;
 fi
 
+if [ $QUIET = 0 ] && [ $2 = '-d' ];
+then
+	DROP=$3
+elif [ $QUIET = 1 ] && [ $3 = '-d' ];
+then
+	DROP=$4
+else
+	DROP=-1
+fi
+
 NUM=${A%%d*}
 SIDES=${A##*d}
 TOTAL=0
 LOW_ROLL=$SIDES
+
+NUM=$(( NUM - 1 ))
 for X in $( seq 0 1 $NUM )
 do
 	ROLLS[X]=$(( RANDOM % SIDES + 1 ))
@@ -31,11 +43,17 @@ unset IFS
 
 for X in $( seq 0 1 $NUM )
 do
-	if [ $QUIET = 0 ];
+	if [ $X -lt $DROP ];
 	then
-		echo "Roll $X  :  ${ROLLS[X]}"
+		if [ $QUIET = 0 ];
+		then
+			echo "Roll $(( X + 1 )) : ${ROLLS[X]} DROP"
+		fi
+	elif [ $QUIET = 0 ];
+	then
+		echo "Roll $(( X + 1 )) : ${ROLLS[X]}"
+		TOTAL=$(( TOTAL + ${ROLLS[X]} ))
 	fi
-	TOTAL=$(( TOTAL + ${ROLLS[X]} ))
 done
 
 if [ $QUIET = 0 ];
