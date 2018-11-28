@@ -15,4 +15,4 @@ groll: a graphical frontend
 
 TODO: fix groll. It looks nasty, and the ok button isn't default.
       also, maybe have a picker with some die icons, and a spinbox for 
-      number of dice. needs a picker for drop dice
+      number of dice.

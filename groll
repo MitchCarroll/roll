@@ -8,5 +8,4 @@ ROLL=$( zenity --forms --title "Roll Dice" \
                   --separator="d" );
 ROLL=$( sed 's/d/ -d /2' <<< $ROLL )
 ROLL=$( sed 's/-d $//g' <<< $ROLL )
-echo $ROLL
 roll $ROLL | zenity --text-info 
