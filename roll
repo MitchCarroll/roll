@@ -1,39 +1,67 @@
 #!/bin/bash
 
-if [ ! $1 ]; then
-echo 'USAGE: roll [-q] <num_dice>d<die_sides>'
-echo ' -q = Quiet Mode: only the total is output'
-exit 1
-elif [ $1 = '-h' ]; then
-echo 'USAGE: roll [-q] <num_dice>d<die_sides>'
-echo ' -q = Quiet Mode: only the total is output'
-exit 1
+if [ ! $1 ] || [ $1 = '-h' ];
+then
+	echo 'USAGE: roll [-q] <num_dice>d<die_sides> [-d <drop_dice>]'
+	echo ' -q = Quiet Mode: only the total is output'
+	echo ' -d N = Drop: after rolling, drop the lowest N dice'
+	exit 1
 fi
 
-if [ $1 = '-q' ]; then
-    A=$2;
-    QUIET=1;
+if [ $1 = '-q' ];
+then
+	A=$2;
+	QUIET=1;
 else
-    A=$1;
-    QUIET=0;
+	A=$1;
+	QUIET=0;
+fi
+
+if [ "$1" != '-q' ] && [ "$2" = '-d' ];
+then
+	DROP=$3
+elif [ $1 = '-q' ] && [ "$3" = '-d' ];
+then
+	DROP=$4
+else
+	DROP=0
 fi
 
 NUM=${A%%d*}
 SIDES=${A##*d}
-ROLL=0
 TOTAL=0
+LOW_ROLL=$SIDES
 
-#for (( X=1;X<=$NUM;X++ ))
-for X in $( seq 1 1 $NUM )
+NUM=$(( NUM - 1 ))
+
+for X in $( seq 0 1 $NUM )
 do
-    ROLL=$(( RANDOM % SIDES + 1 ))
-    TOTAL=$(( TOTAL + ROLL ))
-    if [ $QUIET = 0 ]; then
-	echo "Roll" $X " : " $ROLL
-    fi
+	ROLLS[X]=$(( RANDOM % SIDES + 1 ))
 done
-if [ $QUIET = 0 ]; then
-    echo "Total : " $TOTAL
+
+IFS=$'\n' ROLLS=($(sort <<< "${ROLLS[*]}"))
+unset IFS
+
+for X in $( seq 0 1 $NUM )
+do
+	if [ "$X" -lt "$DROP" ];
+	then
+		if [ "$QUIET" -eq 0 ];
+		then
+			echo "Roll $(( X + 1 )) : ${ROLLS[X]} DROP"
+		fi
+	elif [ "$QUIET" -eq 0 ];
+	then
+		echo "Roll $(( X + 1 )) : ${ROLLS[X]}"
+		TOTAL=$(( TOTAL + ${ROLLS[X]} ))
+	else
+		TOTAL=$(( TOTAL + ${ROLLS[X]} ))
+	fi
+done
+
+if [ "$QUIET" -eq 0 ];
+then
+	echo "Total : $TOTAL"
 else
-    echo $TOTAL
+	echo "$TOTAL"
 fi
